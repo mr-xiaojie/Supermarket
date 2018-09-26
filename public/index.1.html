@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>超市管理系统</title>
+    <!-- <script src="js/vue.min.js"></script> -->
+    <script src="libs/vue/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="libs/element-ui/element-ui.css">
+    <!-- 自己的样式 -->
+    <link rel="stylesheet" href="css/index.css">
+    <!-- 引入组件库 -->
+    <script src="libs/element-ui/element-ui.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-container style="height: 100vh;">
+            <el-aside width="300px">
+                <!--  -->
+                <side-title></side-title>
+                <!-- <div id="side-title">
+                    <h2>华联超市管理系统</h2>
+                    <p>你好,<span>admin</span></p>
+                    <p><a href="/">管理首页</a>|<a href="/login">退出系统</a></p>
+                </div> -->
+                <!--  -->
+
+                <el-menu :unique-opened="true" :default-openeds="['1']">
+                    <!-- 菜单一 -->
+                    <el-submenu index="1">
+                        <template slot="title"><i class="el-icon-message"></i>分类管理</template>
+                        <el-menu-item-group>
+                            <!-- <template slot="title">分组一</template> -->
+                            <el-menu-item index="1-1">分类管理</el-menu-item>
+                            <el-menu-item index="1-2">添加分类</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单二 -->
+                    <el-submenu index="2">
+                        <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1">商品管理</el-menu-item>
+                            <el-menu-item index="2-2">添加商品</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单三-->
+                    <el-submenu index="3">
+                        <template slot="title"><i class="el-icon-setting"></i>进货管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1">库存管理</el-menu-item>
+                            <el-menu-item index="3-2">添加库存</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="4">
+                        <template slot="title"><i class="el-icon-setting"></i>出货管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="4-1">销售列表</el-menu-item>
+                            <el-menu-item index="4-2">商品出库</el-menu-item>
+                            <el-menu-item index="4-3">商品退货</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="5">
+                        <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="5-1">销售统计</el-menu-item>
+                            <el-menu-item index="5-2">进货统计</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="6">
+                        <template slot="title"><i class="el-icon-setting"></i>账号管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="6-1">账号管理</el-menu-item>
+                            <el-menu-item index="6-2">添加账号</el-menu-item>
+                            <el-menu-item index="6-2">密码修改</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="7">
+                        <template slot="title"><i class="el-icon-setting"></i>会员管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="6-1">账号管理</el-menu-item>
+                            <el-menu-item index="6-2">添加账号</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="8">
+                        <template slot="title"><i class="el-icon-setting"></i>系统管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="8-1">系统信息</el-menu-item>
+                            <el-menu-item index="8-2">系统配置</el-menu-item>
+                            <el-menu-item index="8-3">权限管理</el-menu-item>
+                            <el-menu-item index="8-4">添加管理组</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+
+            <section id="right-con">
+                <el-container>
+                    <el-header>
+                        <h2>欢迎您 admin</h2>
+                        <el-dropdown>
+                            <i class="el-icon-setting" style="margin-right: 15px"></i>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>查看</el-dropdown-item>
+                                <el-dropdown-item>新增</el-dropdown-item>
+                                <el-dropdown-item>删除</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                        <span>王小虎</span>
+                    </el-header>
+
+                    <el-main>
+                        <el-alert title="成功提示的文案" type="success">
+                        </el-alert>
+                        <el-alert title="消息提示的文案" type="info">
+                        </el-alert>
+                        <el-row :gutter="24">
+                            <el-col :md="12">
+                                <el-table :data="tableData">
+                                    <el-table-column prop="date" label="日期" width="140">
+                                    </el-table-column>
+                                    <el-table-column prop="name" label="姓名" width="120">
+                                    </el-table-column>
+                                    <el-table-column prop="address" label="地址">
+                                    </el-table-column>
+                                </el-table>
+                            </el-col>
+                            <el-col :md="12">
+                                <el-table :data="tableData1">
+                                    <el-table-column prop="date" label="日期" width="140">
+                                    </el-table-column>
+                                    <el-table-column prop="name" label="姓名" width="120">
+                                    </el-table-column>
+                                    <el-table-column prop="address" label="地址">
+                                    </el-table-column>
+                                </el-table>
+                            </el-col>
+                        </el-row>
+                    </el-main>
+                </el-container>
+            </section>
+            <!--  -->
+        </el-container>
+
+        <style>
+            /* .el-header {
+                background-color: #B3C0D1;
+                color: #333;
+                line-height: 60px;
+            }
+
+            .el-aside {
+                color: #333;
+            } */
+        </style>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data() {
+                const item = {
+                    date: '2016-05-02',
+                    name: '张三',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }
+                const item1 = {
+                    date: '2016-05-02',
+                    name: '李四',
+                    address: '北京市普陀区金沙江路 1518 弄'
+                }
+                return {
+                    tableData: Array(10).fill(item),
+                    tableData1: Array(10).fill(item1)
+                }
+            },
+            components: {
+                'side-title': {
+                    props: [],
+                    data() {
+                        return {
+                            title: '华联超市管理系统',
+                            userName: 'admin'
+                        }
+
+                    },
+                    template: `<div id="side-title">
+                    <h2>{{title}}</h2>
+                    <p>你好,<a href="">{{userName}}</a></p>
+                    <p><a href="/">管理首页</a> | <a href="/login">退出系统</a></p>
+                </div>`
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

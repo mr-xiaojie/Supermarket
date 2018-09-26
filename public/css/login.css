@@ -1,0 +1,30 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    position: relative;
+    background: url(../img/loginbg1.jpg) no-repeat;
+}
+#app{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 450px;
+    height: 300px;
+    padding: 2em;
+    background: #fff;
+    /* background: rgba(0, 0, 0, .2); */
+}
+#app h2{
+    /* color: #fff; */
+    margin-top: 0;
+}
+.el-form-item__label{
+    /* color: #fff; */
+}
+.el-input__inner{
+    background: round;
+}

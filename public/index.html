@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>超市管理系统</title>
+    <!-- <script src="js/vue.min.js"></script> -->
+    <script src="libs/vue/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="libs/element-ui/element-ui.css">
+    <!-- 自己的样式 -->
+    <link rel="stylesheet" href="css/index.css">
+    <!-- 引入组件库 -->
+    <script src="libs/element-ui/element-ui.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-container style="min-height: 100vh;">
+            <el-aside width="300px">
+                <!--  -->
+                <side-title></side-title>
+                <!-- <div id="side-title">
+                    <h2>华联超市管理系统</h2>
+                    <p>你好,<span>admin</span></p>
+                    <p><a href="/">管理首页</a>|<a href="/login">退出系统</a></p>
+                </div> -->
+                <!--  -->
+
+                <el-menu :unique-opened="true" :default-openeds="['']">
+                    <!-- 菜单一 -->
+                    <el-submenu index="1">
+                        <template slot="title"><i class="el-icon-message"></i>分类管理</template>
+                        <el-menu-item-group>
+                            <!-- <template slot="title">分组一</template> -->
+                            <el-menu-item index="1-1">分类管理</el-menu-item>
+                            <el-menu-item index="1-2">添加分类</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单二 -->
+                    <el-submenu index="2">
+                        <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1">商品管理</el-menu-item>
+                            <el-menu-item index="2-2">添加商品</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单三-->
+                    <el-submenu index="3">
+                        <template slot="title"><i class="el-icon-setting"></i>进货管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1">库存管理</el-menu-item>
+                            <el-menu-item index="3-2">添加库存</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="4">
+                        <template slot="title"><i class="el-icon-setting"></i>出货管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="4-1">销售列表</el-menu-item>
+                            <el-menu-item index="4-2">商品出库</el-menu-item>
+                            <el-menu-item index="4-3">商品退货</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="5">
+                        <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="5-1">销售统计</el-menu-item>
+                            <el-menu-item index="5-2">进货统计</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="6">
+                        <template slot="title"><i class="el-icon-setting"></i>账号管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="6-1">账号管理</el-menu-item>
+                            <el-menu-item index="6-2">添加账号</el-menu-item>
+                            <el-menu-item index="6-2">密码修改</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="7">
+                        <template slot="title"><i class="el-icon-setting"></i>会员管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="6-1">账号管理</el-menu-item>
+                            <el-menu-item index="6-2">添加账号</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="8">
+                        <template slot="title"><i class="el-icon-setting"></i>系统管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="8-1">系统信息</el-menu-item>
+                            <el-menu-item index="8-2">系统配置</el-menu-item>
+                            <el-menu-item index="8-3">权限管理</el-menu-item>
+                            <el-menu-item index="8-4">添加管理组</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                </el-menu>
+                </el-menu>
+            </el-aside>
+
+            <section id="right-con">
+                <el-container>
+                    <el-header>
+                        <h2>欢迎您 admin</h2>
+                        <p>查看详细的系统信息</p>
+                    </el-header>
+
+                    <el-main>
+                        <el-card class="box-card">
+                            <div slot="header" class="clearfix">
+                                <span>
+                                    <h3>系统信息</h3>
+                                </span>
+                                <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
+                            </div>
+                            <div class="text item">
+                                <el-alert title="成功提示的文案" type="success">
+                                </el-alert>
+                                <el-alert title="消息提示的文案" type="info">
+                                </el-alert>
+                                <el-row :gutter="50">
+                                    <!-- 销售排行 -->
+                                    <el-col :md="12">
+                                        <el-card class="box-card">
+                                            <div slot="header" class="clearfix">
+                                                <span>
+                                                    <h3>销售排行</h3>
+                                                </span>
+                                            </div>
+                                            <div class="text item">
+                                                <el-table :data="salesData">
+                                                    <el-table-column prop="goodsname" label="商品名称">
+                                                    </el-table-column>
+                                                    <el-table-column prop="sales" label="销量">
+                                                    </el-table-column>
+                                                </el-table>
+                                            </div>
+                                        </el-card>
+                                    </el-col>
+                                    <!-- 缺货商品 -->
+                                    <el-col :md="12">
+                                        <el-card class="box-card">
+                                            <div slot="header" class="clearfix">
+                                                <span>
+                                                    <h3>缺货商品</h3>
+                                                </span>
+                                            </div>
+                                            <div class="text item">
+                                                <el-table :data="stockData">
+                                                    <el-table-column prop="goodsname" label="商品名称">
+                                                    </el-table-column>
+                                                    <el-table-column prop="stock" label="库存">
+                                                    </el-table-column>
+                                                    <el-table-column prop="play" label="操作">
+                                                        <!-- <el-button type="primary" icon="el-icon-edit" circle></el-button> -->
+                                                    </el-table-column>
+                                                </el-table>
+                                            </div>
+                                        </el-card>
+                                    </el-col>
+                                </el-row>
+                            </div>
+                        </el-card>
+
+                    </el-main>
+                    <!-- 右侧尾部 -->
+                    <el-footer>
+                        <hr />
+                        <p>&copy; Copyright 2018 华联超市管理系统</p>
+                    </el-footer>
+                </el-container>
+            </section>
+            <!--  -->
+        </el-container>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data() {
+                const item = {
+                    goodsname: '海飞丝',
+                    sales: '1.8000',
+                }
+                const item1 = {
+                    goodsname: '清扬',
+                    stock: '10',
+                    play: '入库'
+                }
+                return {
+                    salesData: Array(6).fill(item),
+                    stockData: Array(6).fill(item1)
+                }
+            },
+            components: {
+                'side-title': {
+                    props: [],
+                    data() {
+                        return {
+                            title: '华联超市管理系统',
+                            userName: 'admin'
+                        }
+
+                    },
+                    template: `<div id="side-title">
+                    <h2>{{title}}</h2>
+                    <p>你好,<a href="">{{userName}}</a></p>
+                    <p><a href="/">管理首页</a> | <a href="/login">退出系统</a></p>
+                </div>`
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

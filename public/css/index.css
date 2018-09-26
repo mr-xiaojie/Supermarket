@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* 菜单修改 */
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+}
+
+.el-aside {
+    background: #333;
+    color: #999;
+}
+.el-menu{
+    background: #333;
+    color: #ccc;
+    border-right: 1px solid #333;
+}
+.el-menu .el-submenu{
+    /* border-bottom:1px solid #555;  */
+}
+
+.el-menu .el-submenu:first-child{
+    /* border-top:1px solid #555;  */
+
+}
+
+.el-menu .el-submenu .el-submenu__title{
+    color: #ccc;
+    background: #333;
+    border-left: 5px solid #333; 
+}
+.el-menu .el-submenu .el-submenu__title:hover{
+    border-left: 5px solid #ff6600; 
+    background: #444;
+}
+
+.el-menu .el-submenu .el-menu-item{
+    color: #ccc;
+}
+.el-menu--inline .el-menu-item{
+    color: #ccc;
+    background: #333;
+    border-left: 5px solid #333; 
+}
+.el-menu--inline .el-menu-item:hover{
+    border-left: 5px solid #ff6600; 
+    background: #444;
+}
+.el-menu--inline .el-menu-item.is-active{
+    border-left: 5px solid #ff6600; 
+    background: #444;
+}
+
+
+/* 左侧菜单 头部 */
+#side-title {
+    text-align: right;
+    padding: 2em;
+}
+
+#side-title a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+/* 右侧内容 */
+#right-con{
+    display: contents;
+}
+#right-con .el-container{
+    padding: 2em;
+}
+#right-con .el-header{
+    padding-bottom:1em; 
+    background: #fff;
+    height: auto !important;
+}
+/* .el-main{
+    border: 1px solid #eee;
+    border-radius: 10px;
+} */
+#right-con h3{
+    margin: 0;
+}
+.el-alert{
+    margin-bottom: 1em;
+}
