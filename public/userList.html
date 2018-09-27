@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>超市管理系统</title>
+    <!-- jquser.min.js -->
+    <script src="./libs/jquery/jquery.min.js"></script>
     <!-- <script src="js/vue.min.js"></script> -->
     <script src="libs/vue/vue.js"></script>
     <!-- 引入样式 -->
@@ -14,6 +16,8 @@
     <link rel="stylesheet" href="css/index.css">
     <!-- 引入组件库 -->
     <script src="libs/element-ui/element-ui.js"></script>
+    <!-- 格式化时间 -->
+    <script src="libs/moment/moment.js"></script>
 </head>
 
 <body>
@@ -78,15 +82,15 @@
                         <el-menu-item-group>
                             <el-menu-item class="is-active" index="6-1">账号管理</el-menu-item>
                             <el-menu-item index="6-2">添加账号</el-menu-item>
-                            <el-menu-item index="6-2">密码修改</el-menu-item>
+                            <el-menu-item index="6-3">密码修改</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <!-- 菜单四-->
                 <el-submenu index="7">
                         <template slot="title"><i class="el-icon-setting"></i>会员管理</template>
                         <el-menu-item-group>
-                            <el-menu-item index="6-1">账号管理</el-menu-item>
-                            <el-menu-item index="6-2">添加账号</el-menu-item>
+                            <el-menu-item index="7-1">账号管理</el-menu-item>
+                            <el-menu-item index="7-2">添加账号</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <!-- 菜单四-->
@@ -122,20 +126,20 @@
                                     @selection-change="handleSelectionChange">
                                     <el-table-column type="selection">
                                     </el-table-column>
-                                    <el-table-column prop="name" label="用户名">
+                                    <el-table-column prop="username" label="用户名">
                                     </el-table-column>
-                                    <el-table-column prop="group" label="用户组" show-overflow-tooltip>
+                                    <el-table-column prop="groups" label="用户组" show-overflow-tooltip>
                                     </el-table-column>
                                     <el-table-column label="日期">
-                                        <template slot-scope="scope">{{ scope.row.date }}</template>
+                                        <template slot-scope="scope">{{ scope.row.ctime  | formatCtime }}</template>
                                     </el-table-column>
                                     <el-table-column label="操作">
                                         <template slot-scope="scope">
-                                            <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">
+                                            <el-button size="mini" type="primary" @click="handleEdit(scope.row.id)">
                                                 <i class="el-icon-edit"></i>
                                                 编辑
                                             </el-button>
-                                            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">
+                                            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">
                                                 <i class="el-icon-delete"></i>
                                                 删除
                                             </el-button>
@@ -165,28 +169,25 @@
             el: '#app',
             data() {
                 return {
-                    tableData3: [{
-                        date: '2016-05-03',
-                        name: 'admin',
-                        group: '普通管理员'
-                    }, {
-                        date: '2016-05-02',
-                        name: 'guest',
-                        group: '普通管理员'
-                    }, {
-                        date: '2016-05-04',
-                        name: '王小虎',
-                        group: '普通管理员'
-                    }, {
-                        date: '2016-05-07',
-                        name: 'administrator',
-                        group: '超级管理员'
-                    }],
+                    tableData3: [],
                     multipleSelection: []
                 }
             },
-
+            // vue实例创建完毕 没有挂载dom 适合准备数据(发送ajax 获取数据)
+            created () {
+                // 缓存this 指向
+                _this = this;
+                // 浏览器发送get请求
+                $.get('/users/userList', function(data){
+                    console.log(data);
+                    // 将后端返回的数据 绑到 tableData3 上
+                    _this.tableData3=data;
+                })
+                // 调用一次请求所有数据的方法
+                //this.getAllUsers();
+             },
             methods: {
+                // 表单选择函数
                 toggleSelection(rows) {
                     if (rows) {
                         rows.forEach(row => {
@@ -198,7 +199,37 @@
                 },
                 handleSelectionChange(val) {
                     this.multipleSelection = val;
+                },
+
+                // 删除单条数据 方法
+                handleDelete(id){
+                    // 保留this
+                    _this = this;
+                    // 向后端发送get 请求
+                    $.get(`/users/deleteOne?id=${id}`, function(data){
+                       // console.log(data);
+                       if(data.errcode === 1){
+                           alert(data.msg);
+                           // 从新加载页面
+                           // location.href='./userList.html'
+                           // 或者再次获取数据
+                           // 浏览器发送get请求
+                            $.get('/users/userList', function(data){
+                                console.log(data);
+                                // 将后端返回的数据 绑到 tableData3 上
+                                _this.tableData3=data;
+                            })
+                       }else{
+                            alert(data.msg);
+                       }
+                    })
+                },
+                
+                // 跳转到修改页面
+                handleEdit(id){
+                    location.href=`/userEdit.html?id=${id}`;
                 }
+                
             },
             components: {
                 'side-title': {
@@ -208,13 +239,19 @@
                             title: '华联超市管理系统',
                             userName: 'admin'
                         }
-
                     },
                     template: `<div id="side-title">
                     <h2>{{title}}</h2>
                     <p>你好,<a href="">{{userName}}</a></p>
                     <p><a href="/">管理首页</a> | <a href="/login">退出系统</a></p>
                 </div>`
+                }
+            },
+            // 过滤器
+            filters: {
+                // 过滤时间
+                formatCtime (value) {
+                    return moment(value).format("YYYY-MM-DD HH:mm:ss");
                 }
             }
         })

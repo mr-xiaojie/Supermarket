@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/index.css">
     <!-- 引入组件库 -->
     <script src="libs/element-ui/element-ui.js"></script>
+   
 </head>
 
 <body>
@@ -79,8 +80,8 @@
                             <template slot="title"><i class="el-icon-setting"></i>账号管理</template>
                             <el-menu-item-group>
                                 <el-menu-item index="6-1">账号管理</el-menu-item>
-                                <el-menu-item class="is-active" index="6-2">添加账号</el-menu-item>
-                                <el-menu-item index="6-3">密码修改</el-menu-item>
+                                <el-menu-item index="6-2">添加账号</el-menu-item>
+                                <el-menu-item class="is-active" index="6-3">密码修改</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <!-- 菜单四-->
@@ -115,7 +116,7 @@
                         <el-card class="box-card">
                             <div slot="header" class="clearfix">
                                 <span>
-                                    <h3>添加管理员账号</h3>
+                                    <h3>修改管理员账号</h3>
                                 </span>
                                 <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
                             </div>
@@ -123,10 +124,13 @@
                                 <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="100px"
                                     class="demo-ruleForm">
                                     <el-form-item label="用户名" prop="username">
-                                        <el-input type="text" v-model="loginForm.username" autocomplete="off"></el-input>
+                                        <el-input type="text" readonly="readonly" v-model="loginForm.username" autocomplete="off"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="密码" prop="password">
-                                        <el-input type="password" v-model="loginForm.password" autocomplete="off"></el-input>
+                                    <el-form-item label="旧密码" prop="oldpassword">
+                                        <el-input type="oldpassword" v-model="loginForm.oldpassword" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="新密码" prop="newpassword">
+                                        <el-input type="newpassword" v-model="loginForm.newpassword" autocomplete="off"></el-input>
                                     </el-form-item>
                                     <el-form-item label="确认密码" prop="checkPass">
                                         <el-input v-model.number="loginForm.checkPass"></el-input>
@@ -138,7 +142,7 @@
                                         </el-select>
                                     </el-form-item>
                                     <el-form-item>
-                                        <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
+                                        <el-button type="primary" @click="submitForm('loginForm')">确认修改</el-button>
                                         <el-button @click="resetForm('loginForm')">重置</el-button>
                                     </el-form-item>
                                 </el-form>
@@ -156,15 +160,26 @@
             <!--  -->
         </el-container>
     </div>
+    
     <script>
         let vm = new Vue({
             el: '#app',
             data() {
+                //定义一个方法 验证 旧密码
+                let oldPwd = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请再次输入密码!'))
+                    } else if (value != this.loginForm.ruleoldpassword) {
+                        callback(new Error('旧密码不正确!请重新输入!!!'))
+                    } else {
+                        callback(); // 成功的回调
+                    }
+                }
                 //定义一个方法 验证 确认密码
                 let checkPwd = (rule, value, callback) => {
                     if (value === '') {
                         callback(new Error('请再次输入密码!'))
-                    } else if (value != this.loginForm.password) {
+                    } else if (value != this.loginForm.newpassword) {
                         callback(new Error('两次输入密码不一致!'))
                     } else {
                         callback(); // 成功的回调
@@ -173,8 +188,11 @@
                 return {
                     // 定义表单需要的数据
                     loginForm: {
+                        id:'',
                         username: '',
-                        password: '',
+                        ruleoldpassword:'',
+                        oldpassword: '',
+                        newpassword: '',
                         checkPass: '',
                         region: ''
                     },
@@ -194,7 +212,15 @@
                                 trigger: 'blur'
                             }
                         ],
-                        password: [
+                        oldpassword: [
+                            // required是否必填 message:提示信息 trigger:触发方式
+                            {
+                                required: true,
+                                validator: oldPwd,
+                                trigger: 'blur'
+                            }
+                        ],
+                        newpassword: [
                             // required是否必填 message:提示信息 trigger:触发方式
                             {
                                 required: true,
@@ -223,6 +249,27 @@
 
                 };
             },
+            // vue实例创建完毕 没有挂载dom 适合准备数据(发送ajax 获取数据)
+            created () {
+                        // 缓存this 指向
+                        _this = this;
+                        let url = location.href;
+                        let id = url.split("=")[1];
+                        console.log(id);
+                        // 浏览器发送get请求
+                        $.get(`/users/userEdit?id=${id}`, function(data){
+                            console.log(data);
+                            // console.log(_this.loginForm);
+                            let newData = data[0];
+                            _this.loginForm.id = newData.id;
+                            _this.loginForm.username = newData.username;
+                            _this.loginForm.ruleoldpassword = newData.password;
+                            _this.loginForm.region = newData.groups;
+                            //console.log(_this.loginForm);
+                        })
+                        // 调用一次请求所有数据的方法
+                        //this.getAllUsers();
+                    },
             methods: {
                 submitForm(formName) {
                     this.$refs[formName].validate((valid) => {
@@ -231,19 +278,19 @@
                             //向后端发送 post 请求后
                             // 获取要向后端发送的 参数 
                             let params = {
+                                id:this.loginForm.id, // id
                                 username:this.loginForm.username,// 用户名
-                                password:this.loginForm.password,// 密码
+                                password:this.loginForm.newpassword,// 密码
                                 region:this.loginForm.region //分组
                             }
                             // 发送post 请求
-                            $.post('/users/userAdd', params, function(data){
+                            $.post('/users/userEdit', params, function(data){
                                 //console.log(data) data 后端返回的 数据
                                 //location.href = "./userList.html";
                                 // 如果成功 弹出对应的提示信息   data.errcode === 1
                                 if (data.errcode === 1) {
                                      alert(data.msg);
-                                     
-                                    // // 》》跳 转到用户账号列表页面
+                                    // 》》跳 转到用户账号列表页面
                                     location.href = "./userList.html";
                                     // alert(location.href);
                                 } else {
