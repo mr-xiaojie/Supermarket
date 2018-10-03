@@ -18,6 +18,8 @@
     <script src="libs/element-ui/element-ui.js"></script>
     <!-- 格式化时间 -->
     <script src="libs/moment/moment.js"></script>
+    <!-- 发送检测请求 是否登录的请求 -->
+    <script src="/users/isLogin"></script>
 </head>
 
 <body>
@@ -34,73 +36,73 @@
                 <!--  -->
 
                 <el-menu :unique-opened="true" :default-openeds="['6']">
-                   <!-- 菜单一 -->
-                   <el-submenu index="1">
-                    <template slot="title"><i class="el-icon-message"></i>分类管理</template>
-                    <el-menu-item-group>
-                        <!-- <template slot="title">分组一</template> -->
-                        <el-menu-item index="1-1">分类管理</el-menu-item>
-                        <el-menu-item index="1-2">添加分类</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-                <!-- 菜单二 -->
-                <el-submenu index="2">
-                    <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
-                    <el-menu-item-group>
-                        <el-menu-item index="2-1">商品管理</el-menu-item>
-                        <el-menu-item index="2-2">添加商品</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-                <!-- 菜单三-->
-                <el-submenu index="3">
-                    <template slot="title"><i class="el-icon-setting"></i>进货管理</template>
-                    <el-menu-item-group>
-                        <el-menu-item index="3-1">库存管理</el-menu-item>
-                        <el-menu-item index="3-2">添加库存</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-                <!-- 菜单四-->
-                <el-submenu index="4">
-                    <template slot="title"><i class="el-icon-setting"></i>出货管理</template>
-                    <el-menu-item-group>
-                        <el-menu-item index="4-1">销售列表</el-menu-item>
-                        <el-menu-item index="4-2">商品出库</el-menu-item>
-                        <el-menu-item index="4-3">商品退货</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-                <!-- 菜单四-->
-                <el-submenu index="5">
-                        <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
+                    <!-- 菜单一 -->
+                    <el-submenu index="1">
+                        <template slot="title"><i class="el-icon-message"></i>分类管理</template>
                         <el-menu-item-group>
-                            <el-menu-item index="5-1">销售统计</el-menu-item>
-                            <el-menu-item index="5-2">进货统计</el-menu-item>
+                            <!-- <template slot="title">分组一</template> -->
+                            <el-menu-item index="1-1"><a href="">分类管理</a></el-menu-item>
+                            <el-menu-item index="1-2"><a href="">添加分类</a></el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单二 -->
+                    <el-submenu index="2">
+                        <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1"><a href="">商品管理</a></el-menu-item>
+                            <el-menu-item index="2-2"><a href="">添加商品</a></el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单三-->
+                    <el-submenu index="3">
+                        <template slot="title"><i class="el-icon-setting"></i>进货管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1"><a href="">库存管理</a></el-menu-item>
+                            <el-menu-item index="3-2"><a href="">添加库存</a></el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <!-- 菜单四-->
-                <el-submenu index="6">
+                    <el-submenu index="4">
+                        <template slot="title"><i class="el-icon-setting"></i>出货管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="4-1"><a href="">销售列表</a></el-menu-item>
+                            <el-menu-item index="4-2"><a href="">商品出库</a></el-menu-item>
+                            <el-menu-item index="4-3"><a href="">商品退货</a></el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="5">
+                        <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="5-1"><a href="">销售统计</a></el-menu-item>
+                            <el-menu-item index="5-2"><a href="">进货统计</a> </el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 菜单四-->
+                    <el-submenu index="6">
                         <template slot="title"><i class="el-icon-setting"></i>账号管理</template>
                         <el-menu-item-group>
-                            <el-menu-item class="is-active" index="6-1">账号管理</el-menu-item>
-                            <el-menu-item index="6-2">添加账号</el-menu-item>
+                            <el-menu-item class="is-active" index="6-1"><a href="./userList.html">账号管理</a></el-menu-item>
+                            <el-menu-item index="6-2"><a href="./userAdd.html">添加账号</a></el-menu-item>
                             <el-menu-item index="6-3">密码修改</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <!-- 菜单四-->
-                <el-submenu index="7">
+                    <el-submenu index="7">
                         <template slot="title"><i class="el-icon-setting"></i>会员管理</template>
                         <el-menu-item-group>
-                            <el-menu-item index="7-1">账号管理</el-menu-item>
-                            <el-menu-item index="7-2">添加账号</el-menu-item>
+                            <el-menu-item index="7-1"><a href="">账号管理</a></el-menu-item>
+                            <el-menu-item index="7-2"><a href="">添加账号</a></el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <!-- 菜单四-->
-                <el-submenu index="8">
+                    <el-submenu index="8">
                         <template slot="title"><i class="el-icon-setting"></i>系统管理</template>
                         <el-menu-item-group>
-                            <el-menu-item index="8-1">系统信息</el-menu-item>
-                            <el-menu-item index="8-2">系统配置</el-menu-item>
-                            <el-menu-item index="8-3">权限管理</el-menu-item>
-                            <el-menu-item index="8-4">添加管理组</el-menu-item>
+                            <el-menu-item index="8-1"><a href="">系统信息</a></el-menu-item>
+                            <el-menu-item index="8-2"><a href="">系统配置</a></el-menu-item>
+                            <el-menu-item index="8-3"><a href="">权限管理</a></el-menu-item>
+                            <el-menu-item index="8-4"><a href="">添加管理组</a></el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                 </el-menu>
@@ -122,7 +124,7 @@
                                 <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
                             </div>
                             <div class="text item">
-                                <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%"
+                                <el-table ref="multipleTable" stripe :data="tableData3" tooltip-effect="dark" style="width: 100%"
                                     @selection-change="handleSelectionChange">
                                     <el-table-column type="selection">
                                     </el-table-column>
@@ -131,7 +133,7 @@
                                     <el-table-column prop="groups" label="用户组" show-overflow-tooltip>
                                     </el-table-column>
                                     <el-table-column label="日期">
-                                        <template slot-scope="scope">{{ scope.row.ctime  | formatCtime }}</template>
+                                        <template slot-scope="scope">{{ scope.row.ctime | formatCtime }}</template>
                                     </el-table-column>
                                     <el-table-column label="操作">
                                         <template slot-scope="scope">
@@ -146,8 +148,15 @@
                                         </template>
                                     </el-table-column>
                                 </el-table>
+                                <!-- 分页控件 -->
+                                <br />
+                                <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                    :current-page="pagesNum" :page-sizes="[1, 3, 5, 10, 15, 20, 30]" :page-size="barsNum"
+                                    layout="total, sizes, prev, pager, next, jumper" :total="barsAll">
+                                </el-pagination>
+                                <!-- 分页控件 end -->
                                 <div style="margin-top: 20px">
-                                    <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
+                                    <el-button @click="deleteRows()">批量删除</el-button>
                                     <el-button @click="toggleSelection()">取消选择</el-button>
                                 </div>
                             </div>
@@ -170,66 +179,114 @@
             data() {
                 return {
                     tableData3: [],
-                    multipleSelection: []
+                    multipleSelection: [],
+                    currentPage: 1, // 默认页码
+                    barsAll: 0,// 总条数
+                    barsNum: 5, // 每页的条数
+                    pagesNum: 1 // 当前 的页码
                 }
             },
             // vue实例创建完毕 没有挂载dom 适合准备数据(发送ajax 获取数据)
-            created () {
+            created() {
                 // 缓存this 指向
                 _this = this;
                 // 浏览器发送get请求
-                $.get('/users/userList', function(data){
-                    console.log(data);
-                    // 将后端返回的数据 绑到 tableData3 上
-                    _this.tableData3=data;
-                })
                 // 调用一次请求所有数据的方法
-                //this.getAllUsers();
-             },
+                this.getAllUsers()
+            },
             methods: {
+                // 分页
+                handleSizeChange(val) {
+                    // 每页的条数
+                    this.barsNum = val;
+                    this.getAllUsers()
+                },
+                handleCurrentChange(val) {
+                    // 当前 的页码
+                    this.pagesNum = val;
+                    this.getAllUsers()
+                },
+                // 请求所有数据的方法
+                getAllUsers(){
+                    // 保留 this
+                    let _this = this;
+                    // 获取当前的 页码 和 要放的 条数(也是要发个后端的 参数)
+                    let params = {
+                        barsNum : this.barsNum, // 条数
+                        pagesNum : this.pagesNum // 页码
+                    }
+                    // 发送 get 请求
+                    $.get('/users/userList', params, function(data){
+                        if (!data.pageData.length && _this.pagesNum > 1){
+                            _this.pagesNum -= 1;
+                            console.log(_this.pagesNum);
+                            _this.getAllUsers();
+
+                        }
+                            // 把数据总条数 赋值给 totalcount
+                            _this.barsAll = data.allUsers;
+                            // 把对应的页码的数据 赋值给 tableData
+                            _this.tableData3 = data.pageData;
+
+                    })
+                },
+                //批量删除数据
+                deleteRows() {
+                    //console.log(this.multipleSelection);
+                    // 获取勾选的数据
+                    // 从勾选的数据里面 把id获取出来
+                    let idArr = this.multipleSelection.map(v => v.id);
+                    //console.log(idArr);
+
+                    // 如果 没有选中项 就中断此方法
+                    if (!idArr.length) {
+                        alert('对不起!没有选中项!');
+                        return false;
+                    }
+
+                    // 向后端发送 post 请求
+                    $.post('/users/delUsers', {
+                        "idArr": idArr
+                    }, function (data) {
+                        if (data.errcode === 1) {
+                            alert(data.msg)
+                            location.href = './userList.html'
+                        } else {
+                            alert(data.msg)
+                        }
+                    })
+
+                },
                 // 表单选择函数
                 toggleSelection(rows) {
-                    if (rows) {
-                        rows.forEach(row => {
-                            this.$refs.multipleTable.toggleRowSelection(row);
-                        });
-                    } else {
-                        this.$refs.multipleTable.clearSelection();
-                    }
+                    this.$refs.multipleTable.clearSelection();
                 },
                 handleSelectionChange(val) {
                     this.multipleSelection = val;
                 },
 
                 // 删除单条数据 方法
-                handleDelete(id){
+                handleDelete(id) {
                     // 保留this
                     _this = this;
                     // 向后端发送get 请求
-                    $.get(`/users/deleteOne?id=${id}`, function(data){
-                       // console.log(data);
-                       if(data.errcode === 1){
-                           alert(data.msg);
-                           // 从新加载页面
-                           // location.href='./userList.html'
-                           // 或者再次获取数据
-                           // 浏览器发送get请求
-                            $.get('/users/userList', function(data){
-                                console.log(data);
-                                // 将后端返回的数据 绑到 tableData3 上
-                                _this.tableData3=data;
-                            })
-                       }else{
+                    $.get(`/users/deleteOne?id=${id}`, function (data) {
+                        // console.log(data);
+                        if (data.errcode === 1) {
                             alert(data.msg);
-                       }
+                            // 重新 拉取数据
+                            _this.getAllUsers();
+                        } else {
+                            alert(data.msg);
+                        }
                     })
                 },
-                
+
                 // 跳转到修改页面
-                handleEdit(id){
-                    location.href=`/userEdit.html?id=${id}`;
+                handleEdit(id) {
+                    location.href = `/userEdit.html?id=${id}`;
                 }
-                
+
             },
             components: {
                 'side-title': {
@@ -243,14 +300,14 @@
                     template: `<div id="side-title">
                     <h2>{{title}}</h2>
                     <p>你好,<a href="">{{userName}}</a></p>
-                    <p><a href="/">管理首页</a> | <a href="/login">退出系统</a></p>
+                    <p><a href="/">管理首页</a> | <a href="/users/signOut">退出系统</a></p>
                 </div>`
                 }
             },
-            // 过滤器
+            // 时间过滤器
             filters: {
                 // 过滤时间
-                formatCtime (value) {
+                formatCtime(value) {
                     return moment(value).format("YYYY-MM-DD HH:mm:ss");
                 }
             }

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>超市管理系统</title>
+    <!-- jquser.min.js -->
+    <script src="libs/jquery/jquery.min.js"></script>
     <!-- <script src="js/vue.min.js"></script> -->
     <script src="libs/vue/vue.js"></script>
     <!-- 引入样式 -->
@@ -14,12 +16,39 @@
     <link rel="stylesheet" href="css/login.css">
     <!-- 引入组件库 -->
     <script src="libs/element-ui/element-ui.js"></script>
+    <style>
+        #canvas{
+                width:100%;
+                height:100vh;
+                overflow: hidden;
+                position:absolute;
+                top:0;
+                left:0;
+                background-color: #1a1724;               
+            }
+            .canvas-wrap{
+                position:relative;
+                
+            }
+    </style>
 </head>
 
 <body>
+    <!-- <section class="canvas-wrap">
+        <div id="canvas" class="gradient"></div>
+    </section>
+    <script src="http://cdn.bootcss.com/three.js/r68/three.min.js"></script>
+    
+    <script src="js/projector.js"></script>
+    <script src="js/canvas-renderer.js"></script>
+    
+    <script src="js/3d-lines-animation.js"></script>
+    <script src="http://www.jq22.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="js/color.js"></script> -->
     <div id="app">
         <h2>超市管理系统登录</h2>
-        <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="loginForm" :label-position="labelPosition" status-icon :rules="rules" ref="loginForm"
+            label-width="100px" class="demo-ruleForm">
             <el-form-item label="用户名" prop="username">
                 <el-input type="text" v-model="loginForm.username" autocomplete="off"></el-input>
             </el-form-item>
@@ -30,7 +59,7 @@
                 <el-input v-model.number="loginForm.checkPass"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
+                <el-button type="primary" @click="submitForm('loginForm')">立即登录</el-button>
                 <el-button @click="resetForm('loginForm')">重置</el-button>
             </el-form-item>
         </el-form>
@@ -41,68 +70,111 @@
             data() {
                 //定义一个方法 验证 确认密码
                 let checkPwd = (rule, value, callback) => {
-                        if (value === '') {
-                            callback(new Error('请再次输入密码!'))
-                        } else if (value != this.loginForm.password) {
-                            callback(new Error('两次输入密码不一致!'))
-                        } else {
-                            callback(); // 成功的回调
-                        }
+                    if (value === '') {
+                        callback(new Error('请再次输入密码!'))
+                    } else if (value != this.loginForm.password) {
+                        callback(new Error('两次输入密码不一致!'))
+                    } else {
+                        callback(); // 成功的回调
                     }
-                    return {
-                        // 定义表单需要的数据
-                        loginForm: {
-                            username: '',
-                            password: '',
-                            checkPass: ''
-                        },
-                        // 验证 数据
-                        rules: {
-                            username: [
-                                // required是否必填 message:提示信息 trigger:触发方式
-                                {
-                                    required: true,
-                                    message: '请输入用户名',
-                                    trigger: 'blur'
-                                },
-                                {
-                                    min: 5,
-                                    max: 12,
-                                    message: '长度在 5 到 8 个字符',
-                                    trigger: 'blur'
-                                }
-                            ],
-                            password: [
-                                // required是否必填 message:提示信息 trigger:触发方式
-                                {
-                                    required: true,
-                                    message: '请输入密码',
-                                    trigger: 'blur'
-                                },
-                                {
-                                    min: 5,
-                                    max: 12,
-                                    message: '长度在 5 到 8 个字符',
-                                    trigger: 'blur'
-                                }
-                            ],
-                            checkPass: [
-                                // required是否必填 message:提示信息 trigger:触发方式
-                                {
-                                    required: true,
-                                    validator: checkPwd,
-                                    trigger: 'blur'
-                                }
-                            ]
-                        }
+                }
+                return {
+                    labelPosition: 'top',
+                    // 定义表单需要的数据
+                    loginForm: {
+                        username: '',
+                        password: '',
+                        checkPass: ''
+                    },
+                    // 验证 数据
+                    rules: {
+                        username: [
+                            // required是否必填 message:提示信息 trigger:触发方式
+                            {
+                                required: true,
+                                message: '请输入用户名',
+                                trigger: 'blur'
+                            },
+                            {
+                                min: 2,
+                                max: 12,
+                                message: '长度在 2 到 12 个字符',
+                                trigger: 'blur'
+                            }
+                        ],
+                        password: [
+                            // required是否必填 message:提示信息 trigger:触发方式
+                            {
+                                required: true,
+                                message: '请输入密码',
+                                trigger: 'blur'
+                            },
+                            {
+                                min: 5,
+                                max: 12,
+                                message: '长度在 5 到 12 个字符',
+                                trigger: 'blur'
+                            }
+                        ],
+                        checkPass: [
+                            // required是否必填 message:提示信息 trigger:触发方式
+                            {
+                                required: true,
+                                validator: checkPwd,
+                                trigger: 'blur'
+                            }
+                        ]
+                    }
 
-                    };
+                };
             },
             methods: {
+                // 成功提示信息
+                loginSuccess() {
+                    this.$message({
+                        message: '恭喜你, 登录成功 !',
+                        type: 'success'
+                    });
+                    setTimeout(() => {
+                        location.href = './index.html'
+                    }, 1200);
+                },
+                /* loginSuccess() {
+                    this.$alert('恭喜你,登录成功 !', '系统登录提示', {
+                        confirmButtonText: '确定',
+                        type: 'success',
+                        callback: action => {
+                            location.href = './index.html'
+                        }
+                    });
+                }, */
+                // 错误提示信息
+                loginError() {
+                    this.$message({
+                        type: 'error',
+                        message: '登录失败 ! 用户名或密码错误 !'
+                    });
+
+                },
                 submitForm(formName) {
                     this.$refs[formName].validate((valid) => {
+                        // 保留 this
+                        let _this = this
                         if (valid) {
-                            alert('登录成功!');
+                            // 得到 输入的 用户信息
+                            let loginInfo = {
+                                username: this.loginForm.username,
+                                password: this.loginForm.password
+                            }
+                            // 发送 post 请求 验证 用户信息
+                            $.post('/users/userLogin', loginInfo, function (data) {
+                                if (data.errcode === 1) {
+                                    _this.loginSuccess();
+                                } else {
+                                    _this.loginError();
+                                }
+                            })
+
                         } else {
                             console.log('error submit!!');
                             return false;

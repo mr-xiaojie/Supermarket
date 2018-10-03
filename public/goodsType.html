@@ -47,8 +47,8 @@
                     <el-submenu index="2">
                         <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1"><a href="">商品管理</a></el-menu-item>
-                            <el-menu-item index="2-2"><a href="">添加商品</a></el-menu-item>
+                            <el-menu-item index="2-1"><a href="">添加商品</a></el-menu-item>
+                            <el-menu-item index="2-2"><a href="">商品管理</a></el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <!-- 菜单三-->
@@ -123,53 +123,55 @@
                                 <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
                             </div>
                             <div class="text item">
-                                <el-alert title="成功提示的文案" type="success">
-                                </el-alert>
-                                <el-alert title="消息提示的文案" type="info">
-                                </el-alert>
-                                <el-row :gutter="50">
-                                    <!-- 销售排行 -->
-                                    <el-col :md="12">
-                                        <el-card class="box-card">
-                                            <div slot="header" class="clearfix">
-                                                <span>
-                                                    <h3>销售排行</h3>
-                                                </span>
-                                            </div>
-                                            <div class="text item">
-                                                <el-table :data="salesData">
-                                                    <el-table-column prop="goodsname" label="商品名称">
-                                                    </el-table-column>
-                                                    <el-table-column prop="sales" label="销量">
-                                                    </el-table-column>
-                                                </el-table>
-                                            </div>
-                                        </el-card>
-                                    </el-col>
-                                    <!-- 缺货商品 -->
-                                    <el-col :md="12">
-                                        <el-card class="box-card">
-                                            <div slot="header" class="clearfix">
-                                                <span>
-                                                    <h3>缺货商品</h3>
-                                                </span>
-                                            </div>
-                                            <div class="text item">
-                                                <el-table :data="stockData">
-                                                    <el-table-column prop="goodsname" label="商品名称">
-                                                    </el-table-column>
-                                                    <el-table-column prop="stock" label="库存">
-                                                    </el-table-column>
-                                                    <el-table-column prop="play" label="操作">
-                                                        <!-- <el-button type="primary" icon="el-icon-edit" circle></el-button> -->
-                                                    </el-table-column>
-                                                </el-table>
-                                            </div>
-                                        </el-card>
-                                    </el-col>
-                                </el-row>
+                                <!-- 卡片盒子 内容 -->
+                                <el-form :model="addGoodsType" status-icon :rules="rules" ref="addGoodsType" label-width="100px"
+                                    class="demo-ruleForm">
+                                    <!-- 所属分类 goodType -->
+                                    <el-form-item label="所属分类" prop="goodType">
+                                        <el-select v-model="addGoodsType.goodType" placeholder="--请选择顶级分类--">
+                                          <el-option label="生鲜食品" value="生鲜食品"></el-option>
+                                          <el-option label="生活杂货" value="生活杂货"></el-option>
+                                          <el-option label="五金百货" value="五金百货"></el-option>
+                                          <el-option label="家具电器" value="家具电器"></el-option>
+                                          <el-option label="服饰" value="服饰"></el-option>
+                                        </el-select>
+                                      </el-form-item>
+                                      <!-- 分类名称 typeName -->
+                                    <el-form-item label="分类名称" prop="typeName">
+                                        <el-input style="width: 217px;" type="text" v-model="addGoodsType.typeName" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <!-- 状态 state -->
+                                    <el-form-item label="状态" prop="state">
+                                        <el-radio-group v-model="addGoodsType.state">
+                                          <el-radio class="is-checked" label="启用"></el-radio>
+                                          <el-radio label="禁用"></el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-button type="primary" @click="submitForm('addGoodsType')">添加</el-button>
+                                        <el-button @click="resetForm('addGoodsType')">重置</el-button>
+                                    </el-form-item>
+                                </el-form>
                             </div>
                         </el-card>
+                        <!--
+                        数据可建表
+                        create table goodstype(
+                            id int primary key auto_increment,
+                            ctime TIMESTAMP  default CURRENT_TIMESTAMP,
+                            goodType varchar(50),
+                            typeName varchar(50),
+                            state varchar(10)
+                        );
+                        create table goodstype(
+                            id int primary key auto_increment, // id
+                            ctime TIMESTAMP  default CURRENT_TIMESTAMP, // 创建时间
+                            goodType varchar(50),
+                            typeName varchar(50),
+                            state varchar(10)
+                        )
+                       -->
+
 
                     </el-main>
                     <!-- 右侧尾部 -->
@@ -186,54 +188,92 @@
         let vm = new Vue({
             el: '#app',
             data() {
-                const item = {
-                    goodsname: '海飞丝',
-                    sales: '1.8000',
-                }
-                const item1 = {
-                    goodsname: '清扬',
-                    stock: '10',
-                    play: '入库'
-                }
                 return {
-                    salesData: Array(6).fill(item),
-                    stockData: Array(6).fill(item1),
+                    addGoodsType: {
+                        goodType: '', // 商品顶级分类
+                        typeName: '', // 分类名称
+                        state: '' // 状态
+                    },
+                    rules: {
+                        goodType: [
+                            { required: true, message: '请选择顶级分类', trigger: 'change' }
+                        ],
+                        typeName: [
+                            { required: true, message: '请输入商品分类名称', trigger: 'blur'}
+                        ],
+                        state: [
+                            { required: true, message: '请选择活动资源', trigger: 'change' }
+                        ]
+                    },
                     title: '华联超市管理系统',
                     userName: 'admin'
-                }
+                };
             },
             created() {
                 this.getLoginInfo()
             },
             methods: {
-                getLoginInfo(){
+              // 表单成功提示信息
+              success() {
+                this.$message({
+                  message: '哎呦,不错哦!, 保存成功!',
+                  type: 'success'
+                });
+                setTimeout(() => {
+                    location.href = './typeList.html'
+                }, 1200);
+              },
+              // 表单失败的提示信息
+              error() {
+                this.$message.error('哦豁!，保存失败!');
+              },
+
+              // 提交 新建商品分类 表单
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                      let _this = this;
+                        if (valid) {
+                            // alert('submit!');
+                            // 定义要传的参数
+                            let params = {
+                              goodType: this.addGoodsType.goodType, // 商品顶级分类
+                              typeName: this.addGoodsType.typeName, // 分类名称
+                              state: this.addGoodsType.state // 状态
+                            }
+                            // 发送 post 请求 给后端 保存数据
+                            $.post('/goods/goodstype', params , function (data) {
+                              //接收后端返回的数据
+                              if(data.errcode === 1){
+                                _this.success();
+                              } else {
+                                _this.error();
+                              }
+
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                },
+
+                // 获取登录的用户信息
+                getLoginInfo() {
                     let _this = this;
                     // 获取 cookie 中的 路径
                     let userid = document.cookie;
                     let id = userid.split('userid=')[1].split(';')[0];
-                    $.post('/getuser', {"id":id}, function(data){
+                    $.post('/getuser', {
+                        "id": id
+                    }, function (data) {
                         _this.userName = data[0].username;
                         console.log(_this.userName);
                     })
                 }
-            },
-            /* components: {
-                'side-title': {
-                    props: [],
-                    data() {
-                        return {
-                            title: '华联超市管理系统',
-                            userName: ''
-                        }
-
-                    },
-                    template: `<div id="side-title">
-                    <h2>华联超市管理系统</h2>
-                    <p>你好,<a href="">{{userName}}</a></p>
-                    <p><a href="/">管理首页</a> | <a href="/users/signOut">退出系统</a></p>
-                </div>`
-                }
-            } */
+            }
         })
     </script>
 </body>

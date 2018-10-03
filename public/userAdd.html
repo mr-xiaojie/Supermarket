@@ -34,71 +34,71 @@
                 <el-menu :unique-opened="true" :default-openeds="['6']">
                     <!-- 菜单一 -->
                     <el-submenu index="1">
-                        <template slot="title"><i class="el-icon-message"></i>分类管理</template>
-                        <el-menu-item-group>
-                            <!-- <template slot="title">分组一</template> -->
-                            <el-menu-item index="1-1">分类管理</el-menu-item>
-                            <el-menu-item index="1-2">添加分类</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <!-- 菜单二 -->
-                    <el-submenu index="2">
-                        <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="2-1">商品管理</el-menu-item>
-                            <el-menu-item index="2-2">添加商品</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <!-- 菜单三-->
-                    <el-submenu index="3">
-                        <template slot="title"><i class="el-icon-setting"></i>进货管理</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="3-1">库存管理</el-menu-item>
-                            <el-menu-item index="3-2">添加库存</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <!-- 菜单四-->
-                    <el-submenu index="4">
-                        <template slot="title"><i class="el-icon-setting"></i>出货管理</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="4-1">销售列表</el-menu-item>
-                            <el-menu-item index="4-2">商品出库</el-menu-item>
-                            <el-menu-item index="4-3">商品退货</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <!-- 菜单四-->
-                    <el-submenu index="5">
-                            <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
+                            <template slot="title"><i class="el-icon-message"></i>分类管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="5-1">销售统计</el-menu-item>
-                                <el-menu-item index="5-2">进货统计</el-menu-item>
+                                <!-- <template slot="title">分组一</template> -->
+                                <el-menu-item index="1-1"><a href="">分类管理</a></el-menu-item>
+                                <el-menu-item index="1-2"><a href="">添加分类</a></el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <!-- 菜单二 -->
+                        <el-submenu index="2">
+                            <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
+                            <el-menu-item-group>
+                                <el-menu-item index="2-1"><a href="">商品管理</a></el-menu-item>
+                                <el-menu-item index="2-2"><a href="">添加商品</a></el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <!-- 菜单三-->
+                        <el-submenu index="3">
+                            <template slot="title"><i class="el-icon-setting"></i>进货管理</template>
+                            <el-menu-item-group>
+                                <el-menu-item index="3-1"><a href="">库存管理</a></el-menu-item>
+                                <el-menu-item index="3-2"><a href="">添加库存</a></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <!-- 菜单四-->
-                    <el-submenu index="6">
+                        <el-submenu index="4">
+                            <template slot="title"><i class="el-icon-setting"></i>出货管理</template>
+                            <el-menu-item-group>
+                                <el-menu-item index="4-1"><a href="">销售列表</a></el-menu-item>
+                                <el-menu-item index="4-2"><a href="">商品出库</a></el-menu-item>
+                                <el-menu-item index="4-3"><a href="">商品退货</a></el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <!-- 菜单四-->
+                        <el-submenu index="5">
+                            <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
+                            <el-menu-item-group>
+                                <el-menu-item index="5-1"><a href="">销售统计</a></el-menu-item>
+                                <el-menu-item index="5-2"><a href="">进货统计</a> </el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <!-- 菜单四-->
+                        <el-submenu index="6">
                             <template slot="title"><i class="el-icon-setting"></i>账号管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="6-1">账号管理</el-menu-item>
-                                <el-menu-item class="is-active" index="6-2">添加账号</el-menu-item>
+                                <el-menu-item index="6-1"><a href="./userList.html">账号管理</a></el-menu-item>
+                                <el-menu-item class="is-active" index="6-2"><a href="./userAdd.html">添加账号</a></el-menu-item>
                                 <el-menu-item index="6-3">密码修改</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <!-- 菜单四-->
-                    <el-submenu index="7">
+                        <el-submenu index="7">
                             <template slot="title"><i class="el-icon-setting"></i>会员管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="7-1">账号管理</el-menu-item>
-                                <el-menu-item index="7-2">添加账号</el-menu-item>
+                                <el-menu-item index="7-1"><a href="">账号管理</a></el-menu-item>
+                                <el-menu-item index="7-2"><a href="">添加账号</a></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <!-- 菜单四-->
-                    <el-submenu index="8">
+                        <el-submenu index="8">
                             <template slot="title"><i class="el-icon-setting"></i>系统管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="8-1">系统信息</el-menu-item>
-                                <el-menu-item index="8-2">系统配置</el-menu-item>
-                                <el-menu-item index="8-3">权限管理</el-menu-item>
-                                <el-menu-item index="8-4">添加管理组</el-menu-item>
+                                <el-menu-item index="8-1"><a href="">系统信息</a></el-menu-item>
+                                <el-menu-item index="8-2"><a href="">系统配置</a></el-menu-item>
+                                <el-menu-item index="8-3"><a href="">权限管理</a></el-menu-item>
+                                <el-menu-item index="8-4"><a href="">添加管理组</a></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                 </el-menu>
@@ -160,6 +160,19 @@
         let vm = new Vue({
             el: '#app',
             data() {
+                let ishave = (rule , value, callback) => {
+                    // 得到 输入的 用户名
+                    let newName = value;
+                    // 发送 post 请求
+                    $.post('/users/ishave', {'newName':newName}, function(data){
+                        if( data.errcode === 1 ){
+                            callback(new Error( data.msg ));
+                        } else {
+                            callback();
+                        }
+                    })
+
+                }
                 //定义一个方法 验证 确认密码
                 let checkPwd = (rule, value, callback) => {
                     if (value === '') {
@@ -181,6 +194,7 @@
                     // 验证 数据
                     rules: {
                         username: [
+                            
                             // required是否必填 message:提示信息 trigger:触发方式
                             {
                                 required: true,
@@ -188,11 +202,12 @@
                                 trigger: 'blur'
                             },
                             {
-                                min: 5,
+                                min: 2,
                                 max: 12,
-                                message: '长度在 5 到 8 个字符',
+                                message: '长度在 2 到 12 个字符',
                                 trigger: 'blur'
-                            }
+                            },
+                            { required: true, validator: ishave, trigger: 'blur' },
                         ],
                         password: [
                             // required是否必填 message:提示信息 trigger:触发方式
@@ -274,7 +289,7 @@
                     template: `<div id="side-title">
                     <h2>{{title}}</h2>
                     <p>你好,<a href="">{{userName}}</a></p>
-                    <p><a href="/">管理首页</a> | <a href="/login">退出系统</a></p>
+                    <p><a href="/">管理首页</a> | <a href="/users/signOut">退出系统</a></p>
                 </div>`
                 }
             }

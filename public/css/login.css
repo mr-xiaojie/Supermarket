@@ -3,7 +3,7 @@ body{
     padding: 0;
     height: 100vh;
     position: relative;
-    background: url(../img/loginbg1.jpg) no-repeat;
+    background: url(../img/loginbg.png) no-repeat;
 }
 #app{
     position: absolute;
@@ -12,18 +12,21 @@ body{
     left: 0;
     right: 0;
     margin: auto;
-    width: 450px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     padding: 2em;
-    background: #fff;
-    /* background: rgba(0, 0, 0, .2); */
+    background: #ffffff;
+    border-radius: 7px;
+    box-shadow: 0px 0px 30px 0px #3d707a;
 }
 #app h2{
     /* color: #fff; */
     margin-top: 0;
+    padding-bottom: .5em;
+    border-bottom: 1px solid #dcdfe6;
 }
 .el-form-item__label{
-    /* color: #fff; */
+    line-height: 24px;
 }
 .el-input__inner{
     background: round;
