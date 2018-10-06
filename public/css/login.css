@@ -3,7 +3,8 @@ body{
     padding: 0;
     height: 100vh;
     position: relative;
-    background: url(../img/loginbg.png) no-repeat;
+    /* background: url(../img/loginbg.png) no-repeat; */
+    background: linear-gradient(160deg,#ffb785,#ff9498,#e280bc,#9580da,#5f76d3,#7359b8,#7f3b97,#831072);
 }
 #app{
     position: absolute;

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>超市管理系统</title>
+  <!-- jquser.min.js -->
+  <script src="libs/jquery/jquery.min.js"></script>
+  <!-- <script src="js/vue.min.js"></script> -->
+  <script src="libs/vue/vue.js"></script>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="libs/element-ui/element-ui.css">
+  <!-- 自己的样式 -->
+  <link rel="stylesheet" href="css/index.css">
+  <!-- 引入组件库 -->
+  <script src="libs/element-ui/element-ui.js"></script>
+  <!-- 引入过滤时间库 -->
+  <script src="./libs/moment/moment.js"></script>
+  <!-- 发送检测请求 是否登录的请求 -->
+  <script src="/users/isLogin"></script>
+</head>
+
+<body>
+  <div id="app">
+    <el-container style="min-height: 100vh;">
+      <el-aside width="300px">
+        <!--  -->
+        <!-- <side-title></side-title> -->
+        <div id="side-title">
+          <h2>{{title}}</h2>
+          <p>你好,<a href="">{{userName}}</a></p>
+          <p><a href="/">管理首页</a> | <a href="/users/signOut">退出系统</a></p>
+        </div>
+        <!--  -->
+
+        <el-menu :unique-opened="true" :default-openeds="['2']">
+          <!-- 菜单一 -->
+          <el-submenu index="1">
+              <template slot="title"><i class="el-icon-message"></i>分类管理</template>
+              <el-menu-item-group>
+                  <!-- <template slot="title">分组一</template> -->
+                  <el-menu-item index="1-1"><a href="./typeList.html">分类管理</a></el-menu-item>
+                  <el-menu-item index="1-2"><a href="./goodsType.html">添加分类</a></el-menu-item>
+              </el-menu-item-group>
+          </el-submenu>
+          <!-- 菜单二 -->
+          <el-submenu index="2">
+              <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
+              <el-menu-item-group>
+                  <el-menu-item index="2-1"><a href="./goodsAdd.html">添加商品</a></el-menu-item>
+                  <el-menu-item class="is-active" index="2-2"><a href="./goodsList.html">商品管理</a></el-menu-item>
+              </el-menu-item-group>
+          </el-submenu>
+          <!-- 菜单三-->
+          <el-submenu index="3">
+            <template slot="title"><i class="el-icon-setting"></i>进货管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="3-1"><a href="">库存管理</a></el-menu-item>
+              <el-menu-item index="3-2"><a href="">添加库存</a></el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 菜单四-->
+          <el-submenu index="4">
+            <template slot="title"><i class="el-icon-setting"></i>出货管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="4-1"><a href="">销售列表</a></el-menu-item>
+              <el-menu-item index="4-2"><a href="">商品出库</a></el-menu-item>
+              <el-menu-item index="4-3"><a href="">商品退货</a></el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 菜单四-->
+          <el-submenu index="5">
+            <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="5-1"><a href="">销售统计</a></el-menu-item>
+              <el-menu-item index="5-2"><a href="">进货统计</a> </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 菜单四-->
+          <el-submenu index="6">
+            <template slot="title"><i class="el-icon-setting"></i>账号管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="6-1"><a href="./userList.html">账号管理</a></el-menu-item>
+              <el-menu-item index="6-2"><a href="./userAdd.html">添加账号</a></el-menu-item>
+              <el-menu-item index="6-3">密码修改</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 菜单四-->
+          <el-submenu index="7">
+            <template slot="title"><i class="el-icon-setting"></i>会员管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="7-1"><a href="">账号管理</a></el-menu-item>
+              <el-menu-item index="7-2"><a href="">添加账号</a></el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 菜单四-->
+          <el-submenu index="8">
+            <template slot="title"><i class="el-icon-setting"></i>系统管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="8-1"><a href="">系统信息</a></el-menu-item>
+              <el-menu-item index="8-2"><a href="">系统配置</a></el-menu-item>
+              <el-menu-item index="8-3"><a href="">权限管理</a></el-menu-item>
+              <el-menu-item index="8-4"><a href="">添加管理组</a></el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+        </el-menu>
+        </el-menu>
+      </el-aside>
+
+      <section id="right-con">
+        <el-container>
+          <el-header>
+            <h2>欢迎您 {{userName}}</h2>
+            <p>查看详细的系统信息</p>
+          </el-header>
+
+          <el-main>
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span>
+                  <h3>商品信息
+                    <el-button type="primary" style="float:right;">
+                      <a href="./goodsAdd.html" style="display:block; text-decoration: none; color: #fff;">添加商品</a>
+                    </el-button>
+                  </h3>
+                </span>
+                <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
+              </div>
+              <div class="text item">
+                <!-- 卡片盒子 内容 -->
+                <!-- 查询 queryForm -->
+                <el-form :inline="true" :model="queryForm" status-icon :rules="rules" ref="queryForm" class="demo-form-inline">
+                  <!-- 顶级分类 -->
+                  <el-form-item label="顶级分类" prop="goodTypeName">
+                    <el-select v-model="queryForm.goodTypeName" placeholder="顶级分类">
+                      <el-option label="全部" value="全部"></el-option>
+                      <el-option label="生鲜食品" value="生鲜食品"></el-option>
+                      <el-option label="生活杂货" value="生活杂货"></el-option>
+                      <el-option label="五金百货" value="五金百货"></el-option>
+                      <el-option label="家具电器" value="家具电器"></el-option>
+                      <el-option label="服饰" value="服饰"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <!-- 商品分类 -->
+                  <el-form-item label="商品分类" prop="goodGenre">
+                    <el-select v-model="queryForm.goodGenre" placeholder="商品分类">
+                      <el-option label="全部" value="全部"></el-option>
+                      <el-option v-for="option in queryForm.options" v-bind:value="option.value">
+                        {{ option.text }}
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <!-- 关键字查询 -->
+                  <el-form-item label="关键字查询" prop="keyword">
+                    <el-input v-model="queryForm.keyword" placeholder="关键字查询"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="goodsQuery">查询</el-button>
+                  </el-form-item>
+                </el-form>
+                <!-- 商品分类类表 -->
+                <el-table ref="multipleTable" :data="goodslist" max-height="380" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+                  <el-table-column fixed type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column fixed prop="barCode" label="商品条形码" min-width="100"></el-table-column>
+                  <el-table-column fixed prop="goodsName" label="商品名称" width="200"></el-table-column>
+                  <el-table-column prop="goodGenre" label="商品分类" width="150"></el-table-column>
+                  <el-table-column prop="goodType" label="顶级分类" width="150"></el-table-column>
+                  <el-table-column prop="goodsBid" label="进价" width="100"></el-table-column>
+                  <el-table-column prop="marketValue" label="市场价" width="100"></el-table-column>
+                  <el-table-column prop="goodsPrice" label="售价" width="100"></el-table-column>
+                  <el-table-column prop="goodsNum" label="入库数量" width="100"></el-table-column>
+                  <el-table-column prop="ctime" label="保存时间" width="200">
+                    <template slot-scope="scope">{{ scope.row.ctime | formatCtime }}</template>
+                  </el-table-column>
+                  <el-table-column prop="discount" label="优惠" width="100"></el-table-column>
+                  <el-table-column prop="promotion" label="促销" width="100"></el-table-column>
+                  <el-table-column fixed="right" label="操作" width="130">
+                    <template slot-scope="scope">
+                      <el-button size="mini" type="primary" @click="handleEdit(scope.row.id)">
+                        <i class="el-icon-edit"></i>
+                      </el-button>
+                      <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">
+                        <i class="el-icon-delete"></i>
+                      </el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <!-- 分页 -->
+                <template>
+                  <div class="block">
+                    <!-- <span class="demonstration">完整功能</span> -->
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryForm.pagesNum" :page-sizes="[1, 3, 5, 10, 15, 30]" :page-size="queryForm.pagesLists" layout="total, sizes, prev, pager, next, jumper" :total="allLists">
+                    </el-pagination>
+                  </div>
+                </template>
+                <div style="margin-top: 20px">
+                  <el-button @click="batchDel()">批量删除</el-button>
+                  <el-button @click="toggleSelection()">取消选择</el-button>
+                </div>
+              </div>
+            </el-card>
+            <!--
+                        数据可建表
+                        create table goodstype(
+                            id int primary key auto_increment, // id
+                            ctime TIMESTAMP  default CURRENT_TIMESTAMP, // 创建时间
+                            goodType varchar(50),
+                            typeName varchar(50),
+                            state int
+                        )
+                       -->
+
+
+          </el-main>
+          <!-- 右侧尾部 -->
+          <el-footer>
+            <hr />
+            <p>&copy; Copyright 2018 华联超市管理系统</p>
+          </el-footer>
+        </el-container>
+      </section>
+      <!--  -->
+    </el-container>
+  </div>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data() {
+        // 顶级分类的验证
+        var goodTypeName = (rule, value, callback) => {
+          let _this = this;
+          if (value === '') {
+            callback();
+          } else {
+            callback();
+            // 发起 post 请求 根据顶级分类来获取下级商品分类
+            $.post('/goods/goodGenre', {
+              'goodType': value
+            }, function(data) {
+              // console.log(data);
+              // 先清空 数据
+              _this.queryForm.goodGenre = '';
+              _this.queryForm.options = [];
+              for (let i in data) {
+                // console.log(data[i].typeName);
+                let typeName = {
+                  text: data[i].typeName,
+                  value: data[i].typeName
+                }
+                // 在添加数据
+                _this.queryForm.options.push(typeName);
+              }
+            })
+          };
+        };
+        return {
+          queryForm: {
+            goodTypeName: '', // 商品顶级分类
+            goodGenre: '', // 商品分类
+            options: [], //商品分类
+            // options: [{ text: 'One', value: 'A' }], //商品分类
+            keyword: '', // 商品条形码
+            pagesNum: 1, // 默认当前页码
+            pagesLists: 5 // 默认每页显示条数
+          },
+          goodslist: [{
+            id: '', // id
+            ctime: '', // 创建时间
+            barCode: '', // 商品条形码
+            goodsName: '', //商品名称
+            goodGenre: '', // 商品分类
+            goodType: '', // 商品顶级分类
+            goodsBid: '', // 商品进价
+            marketValue: '', //市场价
+            goodsPrice: '', //商品售价
+            goodsNum: '', // 入库数量
+            goodsWeight: '', // 商品重量
+            unit: '', // 商品单位
+            discount: '', // 会员优惠
+            promotion: '', // 是否促销
+            goodsDesc: '', // 商品简介
+          }],
+          rules: {
+            goodTypeName: [{
+              validator: goodTypeName,
+              trigger: 'change'
+            }],
+          },
+          multipleSelection: [], // 选中的 商品的 id
+          //currentPage: this.queryForm.pagesNum, // 默认页码
+          allLists: 30, // 总条数
+          title: '华联超市管理系统',
+          userName: 'admin'
+        };
+      },
+      created() {
+        this.getLoginInfo();
+        this.getGoodsList();
+      },
+      methods: {
+        // 获取登录的用户信息
+        getLoginInfo() {
+          let _this = this;
+          // 获取 cookie 中的 路径
+          let userid = document.cookie;
+          let id = userid.split('userid=')[1].split(';')[0];
+          $.post('/getuser', {
+            "id": id
+          }, function(data) {
+            _this.userName = data[0].username;
+            console.log(_this.userName);
+          })
+        },
+        // 定义保存成功提示信息
+        success() {
+          this.$message({
+            message: '哎呦,不错哦!, 操作成功!',
+            type: 'success'
+          })
+        },
+        // 定义保存失败提示信息
+        error() {
+          this.$message.error('哦豁!，操作失败!');
+        },
+        // 每页的条数
+        handleSizeChange(val) {
+          let _this = this;
+          this.queryForm.pagesLists = val;
+          console.log(`每页 ${val} 条`);
+          this.getGoodsList()
+          setTimeout(function(){
+            _this.goodsQuery()
+          },0)
+
+        },
+        // 当前的页码
+        handleCurrentChange(val) {
+          let _this = this;
+          this.queryForm.pagesNum = val;
+          console.log(val);
+          this.getGoodsList()
+          setTimeout(function(){
+            _this.goodsQuery()
+          },0)
+        },
+        // 获取商品类表数据
+        getGoodsList() {
+          // 保留this
+          let _this = this;
+          let params = {
+            pagesNum : this.queryForm.pagesNum, // 页码
+            pagesLists : this.queryForm.pagesLists //条数
+          }
+          $.get('/goods/goodsList', params, function(data) {
+            _this.allLists = data.allListsNum;
+            _this.goodslist = data.pageData;
+          })
+        },
+
+
+
+
+        // 编辑单条商品分类说
+        handleEdit(id) {
+          console.log(id);
+          // 发送请求 修改请求
+          $.post('/goods/goodsChange', {'id': id}, function(data){
+            console.log(data);
+          })
+        },
+        // 删除单条商品分类说
+        handleDelete(id) {
+          console.log(id);
+          let _this = this;
+          // 发送请求 删除请求
+          $.post('/goods/goodsDel', {'id': id}, function(data){
+            console.log(data);
+            if(data.errcode === 1){
+              _this.success();
+              _this.getGoodsList();
+            } else {
+              _this.error();
+            }
+          })
+        },
+        // 发送 商品信息 查询请求
+        goodsQuery() {
+          // console.log(this.queryForm.pagesNum, this.queryForm.pagesLists);
+          // 保留this
+          let _this = this;
+          // 定义参数
+          let params = {
+            'goodTypeName': this.queryForm.goodTypeName, // 商品顶级分类
+            'goodGenre': this.queryForm.goodGenre, // 商品分类
+            'keyword': this.queryForm.keyword, // 商品条形码
+            'pagesNum': this.queryForm.pagesNum, // 页码
+            'pagesLists': this.queryForm.pagesLists // 条数
+          }
+          // 发起 关键字分类 查询请求
+          $.post('/goods/goodsQuery', params, function(data){
+            _this.allLists = data.allListsNum;
+            _this.goodslist = data.pageData;
+          })
+        },
+        // 批量删除 batchDel
+        batchDel(){
+          // 保留this
+          let _this = this;
+          //console.log(this.multipleSelection);
+          // 获取勾选的数据
+          // 从勾选的数据里面 把id获取出来
+          let idArr = this.multipleSelection.map(v => v.id);
+          //console.log(idArr);
+
+          // 如果 没有选中项 就中断此方法
+          if (!idArr.length) {
+              alert('对不起!没有选中项!');
+              return false;
+          }
+
+          // 向后端发送 post 请求
+          $.post('/goods/batchDelGoods', {"idArr": idArr}, function (data) {
+              if (data.errcode === 1) {
+                _this.success();
+                _this.getGoodsList()
+              } else {
+                _this.error();
+              }
+          })
+        },
+        // 取消选中方法
+        toggleSelection(rows) {
+          // 取消选中
+          this.$refs.multipleTable.clearSelection();
+          //this.$refs.multipleTable.toggleRowSelection(row);
+        },
+        // 将选中的数据 存放到 multipleSelection 中
+        handleSelectionChange(val) {
+          console.log(val);
+          this.multipleSelection = val;
+        }
+      },
+      // 时间过滤器
+      filters: {
+        // 过滤时间
+        formatCtime(value) {
+          return moment(value).format("YYYY-MM-DD HH:mm:ss");
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

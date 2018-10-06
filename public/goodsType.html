@@ -33,24 +33,24 @@
                 </div>
                 <!--  -->
 
-                <el-menu :unique-opened="true" :default-openeds="['']">
-                    <!-- 菜单一 -->
-                    <el-submenu index="1">
-                        <template slot="title"><i class="el-icon-message"></i>分类管理</template>
-                        <el-menu-item-group>
-                            <!-- <template slot="title">分组一</template> -->
-                            <el-menu-item index="1-1"><a href="">分类管理</a></el-menu-item>
-                            <el-menu-item index="1-2"><a href="">添加分类</a></el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                    <!-- 菜单二 -->
-                    <el-submenu index="2">
-                        <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
-                        <el-menu-item-group>
-                            <el-menu-item index="2-1"><a href="">添加商品</a></el-menu-item>
-                            <el-menu-item index="2-2"><a href="">商品管理</a></el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
+                <el-menu :unique-opened="true" :default-openeds="['1']">
+                  <!-- 菜单一 -->
+                  <el-submenu index="1">
+                      <template slot="title"><i class="el-icon-message"></i>分类管理</template>
+                      <el-menu-item-group>
+                          <!-- <template slot="title">分组一</template> -->
+                          <el-menu-item index="1-1"><a href="./typeList.html">分类管理</a></el-menu-item>
+                          <el-menu-item  class="is-active" index="1-2"><a href="./goodsType.html">添加分类</a></el-menu-item>
+                      </el-menu-item-group>
+                  </el-submenu>
+                  <!-- 菜单二 -->
+                  <el-submenu index="2">
+                      <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
+                      <el-menu-item-group>
+                          <el-menu-item index="2-1"><a href="./goodsAdd.html">添加商品</a></el-menu-item>
+                          <el-menu-item index="2-2"><a href="./goodsList.html">商品管理</a></el-menu-item>
+                      </el-menu-item-group>
+                  </el-submenu>
                     <!-- 菜单三-->
                     <el-submenu index="3">
                         <template slot="title"><i class="el-icon-setting"></i>进货管理</template>
