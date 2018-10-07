@@ -271,6 +271,22 @@ router.post('/goodsQuery', (req, res) => {
   })
 })
 
+// 接收 修改商品信息的请求
+router.get('/goodsEdit', (req, res) => {
+  // 接收参数
+  let { id } = req.query;
+  // 定义 SQL 查询语句
+  let sqlCommand = `select * from goodslist where id=${id}`;
+  // 执行查询语句
+  connection.query(sqlCommand, (err, data) => {
+    if(err){
+      throw err;
+    } else {
+      res.send(data);
+    }
+  })
+})
+
 // 接收 单条删除请求
 router.post('/goodsDel', (req, res) => {
   // 测试
@@ -293,7 +309,7 @@ router.post('/goodsDel', (req, res) => {
   })
 })
 
-//
+// 接收 批量删除 商品信息的请求
 router.post('/batchDelGoods', (req, res) => {
   // 测试
   // res.send('阿萨德了飞机案例是看得见')
@@ -317,5 +333,30 @@ router.post('/batchDelGoods', (req, res) => {
     }
   })
 })
+
+// 接收 保存修改后的 商品信息
+router.post('/goodskeep', (req, res) => {
+  // res.send('132456465465')
+    // 接收传来的参数
+    let { id, ctime, goodType, goodGenre, barCode, goodsName, goodsBid, marketValue, goodsPrice, goodsNum, goodsWeight, unit, discount, promotion, goodsDesc } = req.body;
+  
+    // 定义sql 保存修改数据命令
+    let sqlCommand = `update goodslist set ctime='${ctime}', goodType='${goodType}', goodGenre='${goodGenre}', barCode='${barCode}', goodsName='${goodsName}', goodsBid=${goodsBid}, marketValue=${marketValue}, goodsPrice=${goodsPrice}, goodsNum=${goodsNum}, goodsWeight=${goodsWeight}, unit='${unit}', discount='${discount}', promotion='${promotion}', goodsDesc='${goodsDesc}' where id=${id}`
+
+    // 执行sql 命令
+    connection.query(sqlCommand, (err, data) => {
+      if(err){
+        throw err;
+      } else {
+        if(data.affectedRows > 0){
+          res.send({'errcode': 1, 'msg': '商品信息保存成功!'})
+        } else {
+          res.send({'errcode': 0, 'msg': '商品信息保存失败!'})
+        }
+      }
+    })
+
+})
+
 
 module.exports = router;

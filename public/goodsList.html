@@ -367,9 +367,10 @@
         handleEdit(id) {
           console.log(id);
           // 发送请求 修改请求
-          $.post('/goods/goodsChange', {'id': id}, function(data){
-            console.log(data);
-          })
+          location.href = './goodsEdit.html?id='+id;
+          // $.post('/goods/goodsChange', {'id': id}, function(data){
+          //   console.log(data);
+          // })
         },
         // 删除单条商品分类说
         handleDelete(id) {
@@ -390,6 +391,7 @@
         goodsQuery() {
           // console.log(this.queryForm.pagesNum, this.queryForm.pagesLists);
           // 保留this
+          // this.queryForm.pagesNum = 1;
           let _this = this;
           // 定义参数
           let params = {
@@ -401,6 +403,12 @@
           }
           // 发起 关键字分类 查询请求
           $.post('/goods/goodsQuery', params, function(data){
+            // 判断 数据不足时 返回到 第一页
+            if(data.pageData.length < 1){
+              _this.queryForm.pagesNum = 1;
+              // 并重新加载 数据
+              _this.goodsQuery();
+            }
             _this.allLists = data.allListsNum;
             _this.goodslist = data.pageData;
           })
@@ -421,9 +429,10 @@
               return false;
           }
 
-          // 向后端发送 post 请求
+          // 向后端发送 post 请求 批量删除
           $.post('/goods/batchDelGoods', {"idArr": idArr}, function (data) {
               if (data.errcode === 1) {
+                // 
                 _this.success();
                 _this.getGoodsList()
               } else {
@@ -431,12 +440,14 @@
               }
           })
         },
+
         // 取消选中方法
         toggleSelection(rows) {
           // 取消选中
           this.$refs.multipleTable.clearSelection();
           //this.$refs.multipleTable.toggleRowSelection(row);
         },
+
         // 将选中的数据 存放到 multipleSelection 中
         handleSelectionChange(val) {
           console.log(val);
